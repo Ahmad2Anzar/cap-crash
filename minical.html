@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Calculator</title>
+</head>
+<body>
+  <div>  <input id="n1" type="number" placeholder="Enter first number">
+    <input id="n2" type="number" placeholder="ENter second number">
+</div>
+    <button id="add">ADD</button>
+    <button id="sub">SUBTRACT</button>
+    <button id="mul">MULTIPLY</button>
+    <button id="divi">DIVIDE</button>
+
+ <script>
+    let add=document.getElementById("add")
+    let sub=document.getElementById("sub")
+    let mul=document.getElementById("mul")
+    let divi=document.getElementById("divi")
+    let n1=document.getElementById("n1")
+    let n2=document.getElementById("n2")
+
+    add.addEventListener("click",function()
+    {
+        sum=parseInt(n1.value)+parseInt(n2.value)
+        alert(sum)    
+    }
+    )
+    
+    sub.addEventListener("click",function()
+    {
+        sum=(n1.value-n2.value)
+        alert(sum)    
+    }
+    )
+    
+    mul.addEventListener("click",function()
+    {
+        sum=(n1.value*n2.value)
+        alert(sum)    
+    }
+    )
+    
+    divi.addEventListener("click",function()
+    {
+        sum=(n1.value/n2.value)
+        alert(sum)    
+    }
+    )
+
+ </script>
+</body>
+</html>
