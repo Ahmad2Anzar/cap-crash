@@ -1,0 +1,71 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Stopwatch</title>
+        </head>
+        <body>
+            <div>
+            <h1 id="show"> 00 :00:00</h1>
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+            <button id="reset">Reset</button>
+        </div>
+        <script>
+            start=document.getElementById("start")
+            stop=document.getElementById("stop")
+            reset=document.getElementById("reset")
+            show=document.getElementById("show")
+           
+
+            start.addEventListener("click",handlestart)
+            stop.addEventListener("click",handlestop)
+            reset.addEventListener("click",handlereset)
+            
+            let interval;
+            let hour=0
+            let minute=0
+            let seconds=0
+
+            function handlestart()
+            {
+               interval=setInterval(function(){ {
+                seconds++ 
+                 if (seconds===60)
+                 {seconds=0
+                  minute++}
+                  if (minute===60)
+                  {minute=0
+                  hour++}
+                  showtime()
+                
+            }},1000)}
+           
+           
+            function handlestop()
+            {
+                clearInterval(interval)
+            }
+             
+            function handlereset()
+            {
+                clearInterval(interval)
+                hour=0
+                minute=0
+                seconds=0
+                showtime()
+            }
+
+            function showtime()
+            { const displayHours = hour > 0 ? (hour < 10 ? '0' + hour + ':' : hour + ':') : '';
+    const displayMinutes = minute > 0 || hour > 0 ? (minute < 10 ? '0' + minute + ':' : minute + ':') : '';
+    const displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+    show.innerText = displayHours + displayMinutes + displaySeconds;}
+           
+            
+            
+        </script>
+        </body>
+        </html> 
+
