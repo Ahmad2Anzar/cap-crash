@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #navbar
+        {   position: fixed;
+            width: 100%;
+            height:10%;
+            background-color: rgb(186, 245, 245);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            top:0;
+            left: 0;
+            
+        }
+        #navbar>div
+        {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+        }
+        #navbar>div>img
+        {
+            height:80% ;
+            border-radius: 50%;
+        }
+
+        #navbar>div:nth-child(2) 
+        {
+            height: 100%;
+            width: 25%;
+            display: flex;
+        }
+        #navbar>div>input[type="text"]
+        {
+            padding:3% 10% ;
+            border-radius: 20px;
+            border: none;
+            height: 35%;
+        }
+
+        #navbar>div>button
+        {
+            padding:3% 13% ;
+            margin-left: 9%;
+            border-radius: 20px;
+             border: none; 
+            height: 35%;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background color 0.3s ;
+        }
+        #navbar>div>button:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+
+}
+#navbar>div>button:active {
+    background-color: rgba(0, 0, 0, 0.1); 
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); }
+
+    #main
+    {
+        width: 100%;
+        height: 90%;
+        background-color: brown;
+        margin: auto;
+        margin-top: 6%;
+    }
+
+    #sidemenu
+    {
+        width: 10%;
+        background-color: aqua;
+        margin-top: 5%;
+        display: flex;
+        flex-direction: column;
+        padding: 5%;
+    }
+
+    #body
+    {
+        width: 75%;
+        background-color: bisque;
+    }
+
+    </style>
+</head>
+<body>
+      <div id="navbar">
+        <div><img src="https://tse3.mm.bing.net/th?id=OIP.DkJz8TgcNHPwBMbf9KObbwHaH2&pid=Api&P=0&h=180" alt=""></div>
+        <div>
+            <div><input type="text" placeholder="Search" id="search"></button></div>
+            <div><button id="searchbtn">Go</button></div></div>
+        <div>
+            <button id="signup">SignUp</button>
+            <button id="login">Login</button>
+            <button id="admin">Admin</button>
+        </div>
+      </div>
+      <div id="main">
+        <div id="sidemenu">
+            <select id="category">
+                <option value="">Choose Category</option>
+                <option value="mens clothing">Men's Clothing</option>
+                <option value="womens clothing">Womens Clothing</option>
+                <option value="assessories">Assessories</option>
+            </select>
+            <button id="h2l">High to Low</button>
+            <button id="l2h">Low to High</button>
+        </div>
+        <div id="body"></div>
+
+      </div>
+
+
+            
+              
+
+              
+
+      <script>
+             document.addEventListener("DOMContentLoaded",function(){ 
+                let loggedin=false
+              if(localStorage.getItem("loggedin"))
+              {
+                loggedin=true
+                
+              } console.log(loggedin)            
+
+              let maindata;let data;let cart=[];
+              let search=document.getElementById("search")
+              let searchbtn=document.getElementById("searchbtn")
+              let signup=document.getElementById("signup")
+              let login=document.getElementById("login")
+              let admin=document.getElementById("admin")
+              let body=document.getElementById("body")
+              let h2l=document.getElementById("h2l")
+              let l2h=document.getElementById("l2h")
+              let category=document.getElementById("category")
+
+              if(loggedin)
+              {
+                signup.style.display="none"
+                login.style.display="none"
+              }
+
+
+              admin.addEventListener("click",adminpage)
+              login.addEventListener("click",loginpage)
+              signup.addEventListener("click",signuppage)
+              h2l.addEventListener("click",high2low)
+              l2h.addEventListener("click",low2high)
+              category.addEventListener("change",function()
+              {
+                sorting(category.value)
+              })
+
+              searchbtn.addEventListener("click",function()
+              {
+                let value=search.value
+                sorting(value)
+              })
+
+              function sorting(x)
+              {
+              let data= data.filter(function(e)
+                { return e.name==x })
+                showdata(filterdata)
+              }
+
+              function adminpage ( )
+              {window.location.href="productadd.html"}
+
+              function loginpage( )
+              {window.location.href="login.html"}
+
+              function signuppage( )
+              {window.location.href="signup.html"}
+
+              function showdata(data)
+              { 
+                   data.forEach(function(e)
+                   {
+                    let cards=document.createElement("div")
+
+                    let img=document.createElement("img")
+                    img.src=e.src
+
+                    let title=document.createElement("h3")
+                    title.innerHTML=e.title
+
+                    let price=document.createElement("h4")
+                    price.innerHTML=e.price
+
+                    let rating=document.getElementById("h5")
+                    rating.innerHTML=e.ratings
+
+                    let add=document.createElement("button")
+                    add.innerHTML="Add"
+                    add.addEventListener("click",()=>
+                    {
+                      fetch('http://localhost:3000/products',
+                       {
+                          method:'POST',
+                          headers:{"Content-Type":"application/json"},
+                          body:JSON.stringify(e)
+                       })
+                    })
+                    cards.append(img,title,price,rating,add)
+                    body.append(cards)
+                })}
+
+                function high2low()
+                {
+                    data.sort(function(a,b)
+                    {
+                        return b.price-a.price
+                    })
+                }
+                
+                 
+                function low2high()
+                {
+                    data.sort(function(a,b)
+                    {
+                        return a.price-b.price
+                    })
+                }   
+
+                    
+                    
+                    
+
+                
+
+                    
+
+              
+
+               
+              
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            })
+      </script>
+</body>
+</html>

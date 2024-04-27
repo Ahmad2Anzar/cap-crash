@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>/* Basic CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        
+        /* Form Container Styles */
+        #form {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 5%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Form Styles */
+        form {
+            display: grid;
+            gap: 5px;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+         
+        input[type="text"],
+        input[type="number"], 
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 2%;
+        }
+        h1
+        {   
+            text-align: center;
+            color: #0056b3;
+            margin-top: 2%;
+            
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        </style>
+</head>
+<body>
+    <h1>Add Product</h1>
+    <div id="form">
+        <form id="productadd">
+            <label for="">Title</label><br>
+            <input type="text" placeholder="Title"><br>
+            <label for="">Image</label><br>
+            <input type="text" placeholder="Image Src"><br>
+            <label for="">Price</label><br>
+            <input type="number" placeholder="Price"><br>
+            <label for="">Rating</label><br>
+            <select>
+                  <option value="">Rarting</option>  
+                 <option value="5">5</option>
+                 <option value="4">4</option>
+                <option value="3">3</option> 
+                <option value="2">2</option>
+                    <option value="1">1</option>
+                </select>
+            <input type="submit">
+            
+        </form>
+    </div>
+      <script>
+        let allproduct=[]
+      let productadd=document.getElementById("productadd")
+      productadd.addEventListener('submit',function(event)
+      {
+        handlesubmit(event)
+      })
+
+      function handlesubmit(event)
+      {
+        event.preventDefault()
+        let title=event.target[0].value
+        let img=event.target[1].value
+        let price=event.target[2].value
+        let rating=event.target[3].value
+        
+        let obj={}
+       
+        obj.Id=Math.random()
+        obj.title=title
+        obj.img=img
+        obj.price=price
+        obj.rating=rating
+       
+        allproduct.push(obj)
+      } 
+        
+      
+      </script>
+</body>
+</html>
