@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .table
+        {
+            width: 100%;
+             border-collapse: collapse;
+
+        }
+
+        .table th,table td
+        {
+            border:1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th{background-color: bisque;}
+        button
+        {
+            padding: 10px;
+            width: 79px;
+        }
+        #button
+        {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+      <h1>Employee Management System</h1>
+
+      <div id="navbar">
+        <label for="">Filter by department</label>
+        <select name="" id="department">
+            <option value="">Select Department</option>
+            <option value="hr">HR</option>
+            <option value="finance">Finance</option>
+            <option value="marketing">Marketing</option>
+            <option value="engineering">Engineering</option>
+            <option value="operations">Operations</option>
+        </select>
+        
+        
+        <label for="">Filter by gender</label>
+        <select name="" id="gender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+        </select>
+
+
+        <label for="">Filter by salary</label>
+        <select name="" id="salary">
+            <option value="">Select Order</option>
+            <option value="l2h">Low to High</option>
+            <option value="h2l">High to Low</option>
+        </select>
+    </div>
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>S. No.</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+
+        <div id="button">
+            <button id="previous">Previous</button>
+            <button id="next">Next</button>
+        </div>
+    </div>
+
+        <script>
+            let maindata; ;counter=1
+            let next=document.getElementById("next")
+            let previous=document.getElementById("previous")
+            let department=document.getElementById("department")
+            let salary=document.getElementById("salary")
+             let gender=document.getElementById("gender")
+             let tbody=document.getElementById("tbody")
+             if(counter==1){previous.style.display="none"}
+             let getdata=async()=>
+             {
+                let res=await fetch(` https://dbioz2ek0e.execute-api.ap-south-1.amazonaws.com/mockapi/get-employees?page=${counter}&limit=10`)
+                let data=await res.json()
+                maindata=data.data
+               console.log (maindata)
+                showdata(maindata)
+             }
+                 getdata()
+                let newdata=maindata
+
+
+               function showdata(data)
+               {  
+                tbody.innerHTML=""
+                data.forEach(function(a,id)
+                {
+                    let tr=document.createElement("tr")
+
+                    let td1=document.createElement('td')
+                    td1.innerHTML=id+1
+
+                    let td2=document.createElement('td')
+                    td2.innerHTML=a.name
+
+                    let td3=document.createElement('td')
+                    td3.innerHTML=a.gender
+
+                    let td4=document.createElement('td')
+                    td4.innerHTML=a.department
+
+                    let td5=document.createElement('td')
+                    td5.innerHTML=a.salary
+
+                    tr.append(td1,td2,td3,td4,td5)
+                    tbody.append(tr)
+
+                })}
+                
+                function sortbygender()
+                { x=gender.value
+                     newdata=maindata.filter(function(a)
+                    {
+                     return a.gender==x
+                    })  
+                    showdata(newdata) 
+                
+                
+                }
+
+
+                function sortbysalary()
+                {
+                    if(salary.value=='l2h')
+                    {
+                     newdata=newdata.sort(function(a,b)
+                     {
+                        return a.salary-b.salary
+                     })
+                    }
+                    
+                    if(salary.value=='h2l')
+                    {
+                     newdata=newdata.sort(function(a,b)
+                     {
+                        return b.salary-a.salary
+                     })
+                    }
+                    showdata(newdata)
+                }
+
+                function sortbydepartment()
+                {
+                    let x=department.value
+                    newdata =newdata.filter(function(a)
+                   {
+                    return a.department==x
+                   })  
+                   showdata(newdata) 
+
+
+                }
+
+                function nextp()
+                {
+                    counter++
+                    if(counter==10){next.style.display="none"}
+                    previous.style.display="block"
+                    getdata()
+                }
+
+                function previousp()
+                {   counter--
+                    if(counter==1){previous.style.display="none"}
+                    next.style.display="block"
+                    getdata()
+                }
+                  
+
+
+               gender.addEventListener("change",sortbygender)
+               salary.addEventListener("change",sortbysalary)
+               department.addEventListener("change",sortbydepartment)
+               next.addEventListener("click",nextp)
+               previous.addEventListener("click",previousp)
+        </script>
+</body>
+</html>
